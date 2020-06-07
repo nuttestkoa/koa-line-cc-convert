@@ -3,10 +3,14 @@ const Router = require('koa-router');
 const logger = require('koa-logger');
 const app = new Koa();
 const router = new Router();
+const port = process.env.PORT || 4000
 app.use(logger());
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use(router.routes());
 app.use(router.allowedMethods());
-app.prependOnceListener('/webhook', function *(next) {
+
+app.post('/webhook', function *(next) {
     // parse POST request
     var body = yield parse.json(this);
   
