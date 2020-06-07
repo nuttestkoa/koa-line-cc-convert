@@ -1,54 +1,72 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const request = require('request')
-const app = express()
-const port = process.env.PORT || 4000
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
-app.post('/webhook', (req, res) => {
-    let reply_token = req.body.events[0].replyToken
-    reply(reply_token)
-    res.sendStatus(200)
-})
-app.listen(port)
-function reply(reply_token) {
-    let headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer {82d6w35tT/ZdYKVd8G6OCOEmY5M+b4SYMBSp0NWilZ1OjW9nQQm2yRBiUcAQiLZ2gF3QApm6caL7EHjynnQGQn+P0kb+T3Qknn7nR3iBCLsQOfMxuyoJOdOrL+ogVX8uvBKBVwTunPeuqdojX77lJgdB04t89/1O/w1cDnyilFU=}'
-    }
-    let body = JSON.stringify({
-        replyToken: reply_token,
-        messages: [{
-            type: 'text',
-            text: 'Hello'
-        },
-        {
-            type: 'text',
-            text: 'How are you?'
-        }]
-    })
-    request.post({
-        url: 'https://api.line.me/v2/bot/message/reply',
-        headers: headers,
-        body: body
-    }, (err, res, body) => {
-        console.log('status = ' + res.statusCode);
-    });
-}
+const Koa = require('koa');
+const Router = require('koa-router');
+const logger = require('koa-logger');
+const app = new Koa();
+const router = new Router();
+app.use(logger());
+app.use(router.routes());
+app.use(router.allowedMethods());
+app.prependOnceListener('/webhook', function *(next) {
+    // parse POST request
+    var body = yield parse.json(this);
+  
+    var data = {
+      'title': body.title,
+      'body' : body.body
+    };
+  
+    this.body = data;
+});
+
+var port = process.env.PORT || 3000;
+app.listen(port);
+console.log('Listening to %s', port);
+
+// const express = require('express')
+// const bodyParser = require('body-parser')
+// const request = require('request')
+// const app = express()
+// const port = process.env.PORT || 4000
+// app.use(bodyParser.urlencoded({ extended: false }))
+// app.use(bodyParser.json())
+// app.post('/webhook', (req, res) => {
+//     let reply_token = req.body.events[0].replyToken
+//     reply(reply_token)
+//     res.sendStatus(200)
+// })
+// app.listen(port)
+// function reply(reply_token) {
+//     let headers = {
+//         'Content-Type': 'application/json',
+//         'Authorization': 'Bearer {82d6w35tT/ZdYKVd8G6OCOEmY5M+b4SYMBSp0NWilZ1OjW9nQQm2yRBiUcAQiLZ2gF3QApm6caL7EHjynnQGQn+P0kb+T3Qknn7nR3iBCLsQOfMxuyoJOdOrL+ogVX8uvBKBVwTunPeuqdojX77lJgdB04t89/1O/w1cDnyilFU=}'
+//     }
+//     let body = JSON.stringify({
+//         replyToken: reply_token,
+//         messages: [{
+//             type: 'text',
+//             text: 'Hello'
+//         },
+//         {
+//             type: 'text',
+//             text: 'How are you?'
+//         }]
+//     })
+//     request.post({
+//         url: 'https://api.line.me/v2/bot/message/reply',
+//         headers: headers,
+//         body: body
+//     }, (err, res, body) => {
+//         console.log('status = ' + res.statusCode);
+//     });
+// }
 
 
-// const Koa = require('koa');
-// const Router = require('koa-router');
-// const logger = require('koa-logger');
-// const app = new Koa();
-// const router = new Router();
-// app.use(logger());
+
 // router.get('/', (ctx, next) => {
 //     console.log(ctx);
 //     ctx.body = ctx;
 // });
-// app.use(router.routes());
-// app.use(router.allowedMethods());
+
 // app.use(async (ctx, next) => {
 //     try {
 //         await next();
