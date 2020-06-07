@@ -1,30 +1,34 @@
 const Koa = require('koa');
 const Router = require('koa-router');
 const logger = require('koa-logger');
+const bodyParser = require('koa-bodyparser');
 const app = new Koa();
 const router = new Router();
-const port = process.env.PORT || 4000
+const port = process.env.PORT || 4000;
 app.use(logger());
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser());
+
+router.post('/webhook', async (ctx) => {
+    try {
+        console.log(ctx);
+        ctx.body = ctx;
+    } catch (error) {
+        ctx.status = 500;
+        ctx.body = {
+            msg: "Failed to execute a command!"
+        }
+    return; // <- Super important statement that wasted me a whole afternoon!
+    }
+});
+
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-app.post('/webhook', function *(next) {
-    // parse POST request
-    var body = yield parse.json(this);
-  
-    var data = {
-      'title': body.title,
-      'body' : body.body
-    };
-  
-    this.body = data;
-});
 
-var port = process.env.PORT || 3000;
+
 app.listen(port);
-console.log('Listening to %s', port);
+module.exports = { app }
+// console.log('Listening to %s', port);
 
 // const express = require('express')
 // const bodyParser = require('body-parser')

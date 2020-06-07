@@ -11,7 +11,7 @@ afterAll(() => {
 });
 describe('basic route tests', () => {
     test('get home route GET /', async () => {
-        const response = await request(server).get('/');
+        const response = await request(server).post('/webhook');
         expect(response.status).toEqual(200);
     });
 });
