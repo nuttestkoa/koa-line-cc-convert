@@ -67,7 +67,7 @@ function reply(r_Token,r_Text) {
 
         })
         .catch(function (err) {
-            console.log('server error', err, ctx)
+            console.log('server error', err)
         });
 }
 
