@@ -34,7 +34,7 @@ router
         var rp = require('request-promise');
         var options= {
             method: 'POST',
-            uri: 'https://api.line.me/v2/bot/message/reply',
+            url: 'https://api.line.me/v2/bot/message/reply',
             headers: headers,
             body: body,
             json: true
