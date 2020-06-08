@@ -54,15 +54,14 @@ function reply(r_Token,r_Text) {
         
     });
 
-    var rp = require('request-promise');
+    
     var options = {
         method: 'POST',
         url: 'https://api.line.me/v2/bot/message/reply',
         headers: headers,
-        body: body,
-        json: true
+        body: body
     };
-    rp(options)
+    koaRequest(options)
         .then(function (parsedBody){
 
         })
