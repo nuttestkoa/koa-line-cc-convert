@@ -18,12 +18,12 @@ router
         ctx.body = JSON.stringify(ctx.request.body);
         console.log(ctx.body);
         console.log(ctx.request.body.events[0].replyToken);
-        let reply_Token = ctx.request.body.events[0].replyToken;
-        let headers = {
+        const reply_Token = ctx.request.body.events[0].replyToken;
+        const headers = {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer {82d6w35tT/ZdYKVd8G6OCOEmY5M+b4SYMBSp0NWilZ1OjW9nQQm2yRBiUcAQiLZ2gF3QApm6caL7EHjynnQGQn+P0kb+T3Qknn7nR3iBCLsQOfMxuyoJOdOrL+ogVX8uvBKBVwTunPeuqdojX77lJgdB04t89/1O/w1cDnyilFU=}'
         };
-        let body = JSON.stringify({
+        const body = JSON.stringify({
             replyToken: reply_token,
             messages: [{
                 type: 'text',
