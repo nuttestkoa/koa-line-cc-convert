@@ -22,12 +22,15 @@ router
         console.log(ctx.request.body.events[0].replyToken);
         var rec_Text = ctx.request.body.events[0].message.text;
         console.log(ctx.request.body.events[0].message.text);
+        var u_ID = ctx.request.body.events[0].source.userId;
+        console.log(ctx.request.body.events[0].source.userId);
         var rp_headers = {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer {82d6w35tT/ZdYKVd8G6OCOEmY5M+b4SYMBSp0NWilZ1OjW9nQQm2yRBiUcAQiLZ2gF3QApm6caL7EHjynnQGQn+P0kb+T3Qknn7nR3iBCLsQOfMxuyoJOdOrL+ogVX8uvBKBVwTunPeuqdojX77lJgdB04t89/1O/w1cDnyilFU=}'
         };
         var rp_body = JSON.stringify({
             replyToken: reply_Token,
+            userId: u_ID,
             messages: [{
                 type: 'text',
                 text: 'Hello world!'
