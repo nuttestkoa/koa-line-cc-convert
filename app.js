@@ -2,6 +2,7 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const logger = require('koa-logger');
 const bodyParser = require('koa-bodyparser');
+const request = require('koa-request');
 const cors = require('@koa/cors');
 const koaBody = require('koa-body')();
 const app = new Koa();
@@ -54,11 +55,14 @@ function reply(rep_Token,rec_Text) {
             text: rec_Text
         }]
     });
-    router.post({
+    var options= {
         url: 'https://api.line.me/v2/bot/message/reply',
         headers: headers,
         body: body
-    });
+    };
+
+    var response = yield request(options);
+    var info = JSON.parse(response.body);
 }
 
 // console.log('Listening to %s', port);
