@@ -23,6 +23,16 @@ router
         
     });
 
+app.on('error', (err, ctx) => {
+    console.log('server error', err, ctx)
+});
+
+app.use(router.routes());
+app.use(router.allowedMethods());
+
+app.listen(port);
+module.exports = { app }
+
 function reply(rep_Token) {
     const headers = {
         'Content-Type': 'application/json',
@@ -45,16 +55,6 @@ function reply(rep_Token) {
         body: body
     });
 }
-
-app.on('error', (err, ctx) => {
-    console.log('server error', err, ctx)
-});
-
-app.use(router.routes());
-app.use(router.allowedMethods());
-
-app.listen(port);
-module.exports = { app }
 
 // console.log('Listening to %s', port);
 
@@ -95,8 +95,6 @@ module.exports = { app }
 //         console.log('status = ' + res.statusCode);
 //     });
 // }
-
-
 
 // router.get('/', (ctx, next) => {
 //     console.log(ctx);
