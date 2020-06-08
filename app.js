@@ -23,7 +23,7 @@ router
     .post('/webhook', async (ctx, next) => {
         // console.log(ctx.request.body.events)
         var reply_Token = ctx.request.body.events[0].replyToken;
-        var receive_Text = ctx.request.body.events[0].messages.text;
+        var receive_Text = ctx.request.body.events[0].message.text;
         // console.log('token = ' , ctx.request.body.events[0].replyToken);
 
         var rp_body = {
