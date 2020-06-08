@@ -48,7 +48,6 @@ router
             .catch(function (err) {
 
             });
-        console.log(response);
     });
 
 app.on('error', (err, ctx) => {
