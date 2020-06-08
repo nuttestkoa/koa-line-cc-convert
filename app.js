@@ -50,7 +50,7 @@ function reply(rep_Token,rec_Text) {
             text: rec_Text
         }]
     });
-    router.post({
+    app.post({
         url: 'https://api.line.me/v2/bot/message/reply',
         headers: headers,
         body: body
