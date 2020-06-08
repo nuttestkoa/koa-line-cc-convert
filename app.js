@@ -19,27 +19,32 @@ router
         console.log(ctx.body);
         console.log(ctx.request.body.events[0].replyToken);
         const reply_Token = ctx.request.body.events[0].replyToken;
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer {82d6w35tT/ZdYKVd8G6OCOEmY5M+b4SYMBSp0NWilZ1OjW9nQQm2yRBiUcAQiLZ2gF3QApm6caL7EHjynnQGQn+P0kb+T3Qknn7nR3iBCLsQOfMxuyoJOdOrL+ogVX8uvBKBVwTunPeuqdojX77lJgdB04t89/1O/w1cDnyilFU=}'
-        };
-        const body = JSON.stringify({
-            replyToken: reply_token,
-            messages: [{
-                type: 'text',
-                text: 'Hello'
-            },
-            {
-                type: 'text',
-                text: 'How are you?'
-            }]
-        });
-        router.post({
-            url: 'https://api.line.me/v2/bot/message/reply',
-            headers: headers,
-            body: body
-        });
+        reply(reply_Token);
+        
     });
+
+function reply(reply_Token) {
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer {82d6w35tT/ZdYKVd8G6OCOEmY5M+b4SYMBSp0NWilZ1OjW9nQQm2yRBiUcAQiLZ2gF3QApm6caL7EHjynnQGQn+P0kb+T3Qknn7nR3iBCLsQOfMxuyoJOdOrL+ogVX8uvBKBVwTunPeuqdojX77lJgdB04t89/1O/w1cDnyilFU=}'
+    };
+    const body = JSON.stringify({
+        replyToken: reply_token,
+        messages: [{
+            type: 'text',
+            text: 'Hello'
+        },
+        {
+            type: 'text',
+            text: 'How are you?'
+        }]
+    });
+    router.post({
+        url: 'https://api.line.me/v2/bot/message/reply',
+        headers: headers,
+        body: body
+    });
+}
 
 app.on('error', (err, ctx) => {
     console.log('server error', err, ctx)
