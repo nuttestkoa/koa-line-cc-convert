@@ -46,7 +46,7 @@ router
 
             })
             .catch(function (err) {
-
+                console.log('server error', err, ctx)
             });
     });
 
