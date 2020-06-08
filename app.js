@@ -46,9 +46,9 @@ router
         } catch (error) {
             ctx.status = 500;
             ctx.body = {
-                msg: "Failed to execute a command!"
+                msg: "status = " + res.statusCode
             }
-        return; // <- Super important statement that wasted me a whole afternoon!
+            return; // <- Super important statement that wasted me a whole afternoon!
         }
     });
 
