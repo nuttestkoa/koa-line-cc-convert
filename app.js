@@ -2,13 +2,18 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const logger = require('koa-logger');
 const bodyParser = require('koa-bodyparser');
-const koaRequest = require('koa-request');
-const koaBody = require('koa-body')();
 const app = new Koa();
 const router = new Router();
 const port = process.env.PORT || 4000;
 app.use(logger());
 app.use(bodyParser());
+
+app.on('error', (err, ctx) => {
+    console.log('server error', err, ctx)
+});
+
+app.use(router.routes());
+app.use(router.allowedMethods());
 
 router
     .get('/', (ctx, next) => {
@@ -16,13 +21,8 @@ router
         ctx.body = ctx;
     })
     .post('/webhook', async (ctx, next) => {
-        // ctx.body = JSON.stringify(ctx.request.body);
-        // console.log(ctx.body);
-        var reply_Token = ctx.request.body.events[0].replyToken
+        var reply_Token = JSON.stringify(ctx.request.body.events[0].replyToken);
         console.log('token = ' , ctx.request.body.events[0].replyToken);
-        // var rec_Text = ctx.request.body.events[0].message.text;
-        // console.log(ctx.request.body.events[0].message.text);
-
         var options = {
             method: 'POST',
             url: 'https://api.line.me/v2/bot/message/reply',
@@ -31,9 +31,9 @@ router
                 'Authorization': 'Bearer {82d6w35tT/ZdYKVd8G6OCOEmY5M+b4SYMBSp0NWilZ1OjW9nQQm2yRBiUcAQiLZ2gF3QApm6caL7EHjynnQGQn+P0kb+T3Qknn7nR3iBCLsQOfMxuyoJOdOrL+ogVX8uvBKBVwTunPeuqdojX77lJgdB04t89/1O/w1cDnyilFU=}'
             },
             json: true,
-            body: JSON.stringify({
-                replyToken: reply_Token,
-                messages: [{
+            body: {
+                'replyToken': reply_Token,
+                'messages': [{
                         type: 'text',
                         text: 'Hello'
                     },
@@ -41,7 +41,7 @@ router
                         type: 'text',
                         text: 'How are you?'
                     }]
-            })
+            }
         };
         var rp = require('request-promise');
         rp(options)
@@ -53,19 +53,8 @@ router
             });
     });
 
-app.on('error', (err, ctx) => {
-    console.log('server error', err, ctx)
-});
-
-app.use(router.routes());
-app.use(router.allowedMethods());
-
 app.listen(port);
 module.exports = { app }
-
-function reply(r_Token,r_Text) {
-    
-}
 
 // console.log('Listening to %s', port);
 
