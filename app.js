@@ -18,22 +18,20 @@ router
     .post('/webhook', async (ctx, next) => {
         // ctx.body = JSON.stringify(ctx.request.body);
         // console.log(ctx.body);
-        console.log(ctx.request.body.events[0].replyToken);
-        var rep_Token = ctx.request.body.events[0].replyToken;
-        var rec_Text = ctx.request.body.events[0].message.text;
+        console.log('token = ' , ctx.request.body.events[0].replyToken);
         var headers = {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer {82d6w35tT/ZdYKVd8G6OCOEmY5M+b4SYMBSp0NWilZ1OjW9nQQm2yRBiUcAQiLZ2gF3QApm6caL7EHjynnQGQn+P0kb+T3Qknn7nR3iBCLsQOfMxuyoJOdOrL+ogVX8uvBKBVwTunPeuqdojX77lJgdB04t89/1O/w1cDnyilFU=}'
         };
         var body = {
-            replyToken: rep_Token,
+            replyToken: ctx.request.body.events[0].replyToken,
             messages: [{
                 type: 'text',
-                text: rec_Text
+                text: ctx.request.body.events[0].message.text
             }]
         };
-        var rp = require('request-promise');
 
+        var rp = require('request-promise');
         var options= {
             method: 'POST',
             uri: 'https://api.line.me/v2/bot/message/reply',
