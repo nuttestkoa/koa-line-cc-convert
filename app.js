@@ -13,6 +13,10 @@ router
         console.log(ctx);
         ctx.body = ctx;
     })
+    .get('/webhook', (ctx, next) => {
+        console.log(ctx);
+        ctx.body = ctx;
+    })
     .post('/webhook', (ctx, next) => {
         try {
             let reply_token = ctx.req.body.events[0].replyToken;
@@ -31,7 +35,7 @@ router
                     text: 'How are you?'
                 }]
             });
-            ctx.request.post({
+            router.post({
                 url: 'https://api.line.me/v2/bot/message/reply',
                 headers: headers,
                 body: body
