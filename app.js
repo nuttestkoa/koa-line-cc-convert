@@ -18,6 +18,7 @@ router
     .post('/webhook', async (ctx, next) => {
         // ctx.body = JSON.stringify(ctx.request.body);
         // console.log(ctx.body);
+        // var rec_Text = ctx.request.body.events[0].message.text;
         console.log('token = ' , ctx.request.body.events[0].replyToken);
         var headers = {
             'Content-Type': 'application/json',
@@ -27,7 +28,7 @@ router
             replyToken: ctx.request.body.events[0].replyToken,
             messages: [{
                 type: 'text',
-                text: ctx.request.body.events[0].message.text
+                text: 'Hello world!'
             }]
         });
 
