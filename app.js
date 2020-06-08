@@ -38,7 +38,7 @@ router
     });
 
 app.on('error', (err, ctx) => {
-    log.error('server error', err, ctx)
+    console.log.error('server error', err, ctx)
 });
 
 app.use(router.routes());
