@@ -15,8 +15,29 @@ router
     })
     .post('/webhook', (ctx, next) => {
         try {
-            console.log(ctx);
-            ctx.body = ctx;
+            let reply_token = ctx.req.body.events[0].replyToken;
+            let headers = {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer {82d6w35tT/ZdYKVd8G6OCOEmY5M+b4SYMBSp0NWilZ1OjW9nQQm2yRBiUcAQiLZ2gF3QApm6caL7EHjynnQGQn+P0kb+T3Qknn7nR3iBCLsQOfMxuyoJOdOrL+ogVX8uvBKBVwTunPeuqdojX77lJgdB04t89/1O/w1cDnyilFU=}'
+            };
+            let body = JSON.stringify({
+                replyToken: reply_token,
+                messages: [{
+                    type: 'text',
+                    text: 'Hello'
+                },
+                {
+                    type: 'text',
+                    text: 'How are you?'
+                }]
+            });
+            ctx.request.post({
+                url: 'https://api.line.me/v2/bot/message/reply',
+                headers: headers,
+                body: body
+            }, (err, res, body) => {
+                console.log('status = ' + res.statusCode);
+            });
         } catch (error) {
             ctx.status = 500;
             ctx.body = {
@@ -29,10 +50,9 @@ router
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-
-
 app.listen(port);
 module.exports = { app }
+
 // console.log('Listening to %s', port);
 
 // const express = require('express')
