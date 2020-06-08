@@ -21,11 +21,11 @@ router
         // var rec_Text = ctx.request.body.events[0].message.text;
         var reply_Token = ctx.request.body.events[0].replyToken
         console.log('token = ' , ctx.request.body.events[0].replyToken);
-        var headers = {
+        var rp_headers = {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer {82d6w35tT/ZdYKVd8G6OCOEmY5M+b4SYMBSp0NWilZ1OjW9nQQm2yRBiUcAQiLZ2gF3QApm6caL7EHjynnQGQn+P0kb+T3Qknn7nR3iBCLsQOfMxuyoJOdOrL+ogVX8uvBKBVwTunPeuqdojX77lJgdB04t89/1O/w1cDnyilFU=}'
         };
-        var body = JSON.stringify({
+        var rp_body = JSON.stringify({
             replyToken: reply_Token,
             messages: [{
                 type: 'text',
@@ -37,8 +37,8 @@ router
         var options= {
             method: 'POST',
             url: 'https://api.line.me/v2/bot/message/reply',
-            headers: headers,
-            body: body,
+            headers: rp_headers,
+            body: rp_body,
             json: true
         };
         rp(options)
