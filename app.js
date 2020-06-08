@@ -32,7 +32,7 @@ router
             },
             json: true,
             body: {
-                replyToken: reply_Token,
+                replyToken: JSON.stringify(reply_Token),
                 messages: [{
                         type: 'text',
                         text: 'Hello'
