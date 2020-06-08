@@ -24,7 +24,7 @@ router
         var reply_Token = ctx.request.body.events[0].replyToken;
         console.log('token = ' , ctx.request.body.events[0].replyToken);
 
-        var rp_body = JSON.stringify({
+        var rp_body = {
             replyToken: reply_Token,
             messages: [{
                     type: 'text',
@@ -34,7 +34,7 @@ router
                     type: 'text',
                     text: 'How are you?'
                 }]
-        });
+        };
 
         var options = {
             method: 'POST',
