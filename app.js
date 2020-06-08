@@ -38,6 +38,7 @@ router
             }, (err, res, body) => {
                 console.log('status = ' + res.statusCode);
             });
+            ctx.status = 200;
         } catch (error) {
             ctx.status = 500;
             ctx.body = {
