@@ -43,7 +43,7 @@ router
                     }]
             }
         };
-        var rq = require('request-promise');
+        var rp = require('request-promise');
         rp(options)
             .then(function (parsedBody){
                 console.log('rq success');
