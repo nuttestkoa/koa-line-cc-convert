@@ -21,9 +21,10 @@ router
         ctx.body = ctx;
     })
     .post('/webhook', async (ctx, next) => {
-        console.log(ctx.request.body.events)
+        // console.log(ctx.request.body.events)
         var reply_Token = ctx.request.body.events[0].replyToken;
-        console.log('token = ' , ctx.request.body.events[0].replyToken);
+        var receive_Text = ctx.request.body.events[0].messages.text;
+        // console.log('token = ' , ctx.request.body.events[0].replyToken);
 
         var rp_body = {
             replyToken: reply_Token,
@@ -33,7 +34,11 @@ router
                 },
                 {
                     type: 'text',
-                    text: 'How are you?'
+                    text: 'I will echo your text :'
+                },
+                {
+                    type: 'text',
+                    text: receive_Text
                 }]
         };
 
