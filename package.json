@@ -15,7 +15,8 @@
     "koa-router": "^9.0.1",
     "koa-static": "^5.0.0",
     "nodemon": "^2.0.4",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5"
   },
   "devDependencies": {
     "jest": "^26.0.1",

@@ -21,23 +21,33 @@ router
         console.log(ctx.request.body.events[0].replyToken);
         var rep_Token = ctx.request.body.events[0].replyToken;
         var rec_Text = ctx.request.body.events[0].message.text;
-        const headers = {
+        var headers = {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer {82d6w35tT/ZdYKVd8G6OCOEmY5M+b4SYMBSp0NWilZ1OjW9nQQm2yRBiUcAQiLZ2gF3QApm6caL7EHjynnQGQn+P0kb+T3Qknn7nR3iBCLsQOfMxuyoJOdOrL+ogVX8uvBKBVwTunPeuqdojX77lJgdB04t89/1O/w1cDnyilFU=}'
         };
-        const body = JSON.stringify({
+        var body = JSON.stringify({
             replyToken: rep_Token,
             messages: [{
                 type: 'text',
                 text: rec_Text
             }]
         });
+        var rp = require('request-promise');
+
         var options= {
-            url: 'https://api.line.me/v2/bot/message/reply',
+            method: 'POST',
+            uri: 'https://api.line.me/v2/bot/message/reply',
             headers: headers,
-            body: body
+            body: body,
+            json: true
         };
-        var response = koaRequest(options);
+        rp(options)
+            .then(function (parsedBody){
+
+            })
+            .catch(function (err) {
+
+            });
         console.log(response);
     });
 
