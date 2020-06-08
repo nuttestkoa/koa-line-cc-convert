@@ -37,8 +37,8 @@ router
             headers: headers,
             body: body
         };
-        koaRequest(options);
-        ctx.status = 200;
+        var response = koaRequest(options);
+        console.log(response);
     });
 
 app.on('error', (err, ctx) => {
