@@ -40,13 +40,13 @@ router
                 headers: headers,
                 body: body
             }, (err, res, body) => {
-                console.log('status = ' + res.statusCode);
+                console.log('status = ' + ctx.res.statusCode);
             });
             ctx.status = 200;
         } catch (error) {
             ctx.status = 500;
             ctx.body = {
-                msg: "status = " + res.statusCode
+                msg: "status = " + ctx.res.statusCode
             }
             return; // <- Super important statement that wasted me a whole afternoon!
         }
