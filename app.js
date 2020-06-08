@@ -22,38 +22,8 @@ router
         console.log(ctx.request.body.events[0].replyToken);
         var rec_Text = ctx.request.body.events[0].message.text;
         console.log(ctx.request.body.events[0].message.text);
-        var rp_headers = {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer {82d6w35tT/ZdYKVd8G6OCOEmY5M+b4SYMBSp0NWilZ1OjW9nQQm2yRBiUcAQiLZ2gF3QApm6caL7EHjynnQGQn+P0kb+T3Qknn7nR3iBCLsQOfMxuyoJOdOrL+ogVX8uvBKBVwTunPeuqdojX77lJgdB04t89/1O/w1cDnyilFU=}'
-        };
-        let rp_body = JSON.stringify({
-            replyToken: reply_Token,
-            messages: [{
-                    type: 'text',
-                    text: 'Hello'
-                },
-                {
-                    type: 'text',
-                    text: 'How are you?'
-                }]
-            
-        });
-
-        var rp = require('request-promise');
-        var options = {
-            method: 'POST',
-            uri: 'https://api.line.me/v2/bot/message/reply',
-            headers: rp_headers,
-            body: rp_body,
-            json: true
-        };
-        rp(options)
-            .then(function (parsedBody){
-
-            })
-            .catch(function (err) {
-                console.log('server error', err, ctx)
-            });
+        reply(reply_Token, rec_Text);
+        ctx.status = 200;
     });
 
 app.on('error', (err, ctx) => {
@@ -65,6 +35,41 @@ app.use(router.allowedMethods());
 
 app.listen(port);
 module.exports = { app }
+
+function reply(r_Token,r_Text) {
+    let headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer {82d6w35tT/ZdYKVd8G6OCOEmY5M+b4SYMBSp0NWilZ1OjW9nQQm2yRBiUcAQiLZ2gF3QApm6caL7EHjynnQGQn+P0kb+T3Qknn7nR3iBCLsQOfMxuyoJOdOrL+ogVX8uvBKBVwTunPeuqdojX77lJgdB04t89/1O/w1cDnyilFU=}'
+    };
+    let body = JSON.stringify({
+        replyToken: r_Token,
+        messages: [{
+                type: 'text',
+                text: 'Hello'
+            },
+            {
+                type: 'text',
+                text: 'How are you?'
+            }]
+        
+    });
+
+    var rp = require('request-promise');
+    var options = {
+        method: 'POST',
+        url: 'https://api.line.me/v2/bot/message/reply',
+        headers: headers,
+        body: body,
+        json: true
+    };
+    rp(options)
+        .then(function (parsedBody){
+
+        })
+        .catch(function (err) {
+            console.log('server error', err, ctx)
+        });
+}
 
 // console.log('Listening to %s', port);
 
