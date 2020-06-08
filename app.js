@@ -8,18 +8,23 @@ const port = process.env.PORT || 4000;
 app.use(logger());
 app.use(bodyParser());
 
-router.post('/webhook', async (ctx) => {
-    try {
+router
+    .get('/', (ctx, next) => {
         console.log(ctx);
         ctx.body = ctx;
-    } catch (error) {
-        ctx.status = 500;
-        ctx.body = {
-            msg: "Failed to execute a command!"
+    })
+    .post('/webhook', (ctx, next) => {
+        try {
+            console.log(ctx);
+            ctx.body = ctx;
+        } catch (error) {
+            ctx.status = 500;
+            ctx.body = {
+                msg: "Failed to execute a command!"
+            }
+        return; // <- Super important statement that wasted me a whole afternoon!
         }
-    return; // <- Super important statement that wasted me a whole afternoon!
-    }
-});
+    });
 
 app.use(router.routes());
 app.use(router.allowedMethods());
