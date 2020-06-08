@@ -2,6 +2,7 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const logger = require('koa-logger');
 const bodyParser = require('koa-bodyparser');
+const koaBody = require('koa-body')();
 const app = new Koa();
 const router = new Router();
 const port = process.env.PORT || 4000;
@@ -14,27 +15,28 @@ router
         ctx.body = ctx;
     })
     .post('/webhook', (ctx, next) => {
-        let reply_token = ctx.req.body.events[0].replyToken;
-        let headers = {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer {82d6w35tT/ZdYKVd8G6OCOEmY5M+b4SYMBSp0NWilZ1OjW9nQQm2yRBiUcAQiLZ2gF3QApm6caL7EHjynnQGQn+P0kb+T3Qknn7nR3iBCLsQOfMxuyoJOdOrL+ogVX8uvBKBVwTunPeuqdojX77lJgdB04t89/1O/w1cDnyilFU=}'
-        };
-        let body = JSON.stringify({
-            replyToken: reply_token,
-            messages: [{
-                type: 'text',
-                text: 'Hello'
-            },
-            {
-                type: 'text',
-                text: 'How are you?'
-            }]
-        });
-        router.post({
-            url: 'https://api.line.me/v2/bot/message/reply',
-            headers: headers,
-            body: body
-        });
+        let ctxBody = ctx.req.body;
+        console.log(ctxBody);
+        // let headers = {
+        //     'Content-Type': 'application/json',
+        //     'Authorization': 'Bearer {82d6w35tT/ZdYKVd8G6OCOEmY5M+b4SYMBSp0NWilZ1OjW9nQQm2yRBiUcAQiLZ2gF3QApm6caL7EHjynnQGQn+P0kb+T3Qknn7nR3iBCLsQOfMxuyoJOdOrL+ogVX8uvBKBVwTunPeuqdojX77lJgdB04t89/1O/w1cDnyilFU=}'
+        // };
+        // let body = JSON.stringify({
+        //     replyToken: reply_token,
+        //     messages: [{
+        //         type: 'text',
+        //         text: 'Hello'
+        //     },
+        //     {
+        //         type: 'text',
+        //         text: 'How are you?'
+        //     }]
+        // });
+        // router.post({
+        //     url: 'https://api.line.me/v2/bot/message/reply',
+        //     headers: headers,
+        //     body: body
+        // });
     });
 
 app.on('error', (err, ctx) => {
