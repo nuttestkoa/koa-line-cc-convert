@@ -2,12 +2,20 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const logger = require('koa-logger');
 const bodyParser = require('koa-bodyparser');
+const cors = require('@koa/cors');
 const koaBody = require('koa-body')();
 const app = new Koa();
 const router = new Router();
 const port = process.env.PORT || 4000;
 app.use(logger());
 app.use(bodyParser());
+app.use(
+    cors({
+        origin: '*',
+        allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
+        exposeHeaders: ['X-Request-Id'],
+    })
+)
 
 router
     .get('/', (ctx, next) => {
@@ -21,7 +29,7 @@ router
         var reply_Token = ctx.request.body.events[0].replyToken;
         var receive_Text = ctx.request.body.events[0].message.text;
         reply(reply_Token, receive_Text);
-        
+        ctx.status = 200;
     });
 
 app.on('error', (err, ctx) => {
@@ -50,7 +58,7 @@ function reply(rep_Token,rec_Text) {
             text: rec_Text
         }]
     });
-    app.post({
+    router.post({
         url: 'https://api.line.me/v2/bot/message/reply',
         headers: headers,
         body: body
