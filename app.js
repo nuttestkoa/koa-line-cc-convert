@@ -23,8 +23,8 @@ router
         ctx.body = ctx;
     })
     .post('/webhook', async (ctx, next) => {
-        ctx.body = JSON.stringify(ctx.request.body);
-        console.log(ctx.body);
+        // ctx.body = JSON.stringify(ctx.request.body);
+        // console.log(ctx.body);
         console.log(ctx.request.body.events[0].replyToken);
         var reply_Token = ctx.request.body.events[0].replyToken;
         var receive_Text = ctx.request.body.events[0].message.text;
@@ -50,10 +50,6 @@ function reply(rep_Token,rec_Text) {
     const body = JSON.stringify({
         replyToken: rep_Token,
         messages: [{
-            type: 'text',
-            text: rec_Text
-        },
-        {
             type: 'text',
             text: rec_Text
         }]
