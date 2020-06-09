@@ -5,6 +5,11 @@ const bodyParser = require('koa-bodyparser');
 const app = new Koa();
 const router = new Router();
 const port = process.env.PORT || 4000;
+
+var usd_rates = 0.0;
+var thb_rates = 0.0;
+var usb_to_thb = 0.0;
+
 app.use(logger());
 app.use(bodyParser());
 
@@ -15,16 +20,55 @@ app.on('error', (err, ctx) => {
 app.use(router.routes());
 app.use(router.allowedMethods());
 
+
 router
     .get('/', (ctx, next) => {
-        console.log(ctx);
+        console.log('Test FIXER API');
         ctx.body = ctx;
+        // var fx_option = {
+        //     method: 'GET',
+        //     url: 'http://data.fixer.io/api/latest?access_key=6646d19dc18a481c1fc14f93094a3197',
+        //     json: true
+        // }
+        // var fx_rp = require('request-promise');
+        // fx_rp(fx_option)
+        //     .then(function (parsedBody){
+        //         console.log('fx rq success');
+        //         console.log(ctx);
+        //     })
+        //     .catch(function (err) {
+        //         console.log('server error', err, ctx);
+        //     });
+    })
+    .get('/fixer', async (ctx, next) => {
+        console.log('FIXER API START');
+        ctx.body = ctx;
+        // console.log(ctx.request.body);
+        // http://data.fixer.io/api/latest?access_key=6646d19dc18a481c1fc14f93094a3197
+        var fx_option = {
+                method: 'GET',
+                url: 'http://data.fixer.io/api/latest?access_key=6646d19dc18a481c1fc14f93094a3197',
+                json: true
+            }
+            var fx_rp = require('request-promise');
+            fx_rp(fx_option)
+                .then(function (parsedBody){
+                    console.log('fx rq success');
+                    // console.log('parsed = ' , parsedBody);
+                    console.log('USD = ' , parsedBody.rates.USD);
+                    usd_rates = parsedBody.rates.USD;
+                    console.log('THB = ' , parsedBody.rates.THB);
+                    thb_rates = parsedBody.rates.THB;
+                    usb_to_thb = (1 / usd_rates) * thb_rates;
+                })
+                .catch(function (err) {
+                    console.log('server error', err, ctx);
+                });
+        
     })
     .post('/webhook', async (ctx, next) => {
-        // console.log(ctx.request.body.events)
         var reply_Token = ctx.request.body.events[0].replyToken;
         var receive_Text = ctx.request.body.events[0].message.text;
-        // console.log('token = ' , ctx.request.body.events[0].replyToken);
         if(reply_Token === '00000000000000000000000000000000') {
             ctx.status = 200;
         } else {
@@ -33,6 +77,14 @@ router
             messages: [{
                     type: 'text',
                     text: 'Hello'
+                },
+                {
+                    type: 'text',
+                    text: 'Hello'
+                },
+                {
+                    type: 'text',
+                    text: ('USD rates : ' , usb_to_thb)
                 },
                 {
                     type: 'text',
