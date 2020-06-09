@@ -83,7 +83,7 @@ router
                 },
                 {
                     type: 'text',
-                    text: ('USD rates : ' , usb_to_thb)
+                    text: 'USD rates : ' + usb_to_thb.toFixed(2)
                 },
                 {
                     type: 'text',
