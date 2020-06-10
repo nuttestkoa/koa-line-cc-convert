@@ -64,13 +64,13 @@ module.exports = ({ router }) => {
                             let converted_usd = convert_number*usd_to_thb
                             reply_Text = [{
                                 type: 'text',
-                                text: convert_number + ' USD is ' + converted_usd + ' THB'
+                                text: convert_number + ' USD is ' + converted_usd.toFixed(2) + ' THB'
                             }]
                         } else if (lower_receive_Text.includes('jpy')) {
                             let converted_jpy = convert_number*jpy_to_thb
                             reply_Text = [{
                                 type: 'text',
-                                text: convert_number + ' JPY is ' + converted_jpy + ' THB'
+                                text: convert_number + ' JPY is ' + converted_jpy.toFixed(2) + ' THB'
                             }]
                         } else {
                             reply_Text = [{
