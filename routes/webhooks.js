@@ -17,7 +17,7 @@ module.exports = ({ router }) => {
         fx_rp(fx_option)
             .then(function (parsedBody){
                 console.log('fx rq success');
-                console.log('parsed = ' , parsedBody);
+                //console.log('parsed = ' , parsedBody);
                 //console.log('USD = ' , parsedBody.rates.USD);
                 usd_rates = parsedBody.rates.USD;
                 //console.log('THB = ' , parsedBody.rates.THB);
@@ -38,13 +38,16 @@ module.exports = ({ router }) => {
         } else {
 
             let reply_Type = ctx.request.body.events[0].type;
+            console.log( 'Body = ' , ctx.request.body);
+
+            let reply_Text = [];
 
             if( reply_Type === 'text') {
                 
                 let receive_Text = ctx.request.body.events[0].message.text;
                 let lower_receive_Text = receive_Text.toLowerCase();
                 let echo_Text = ["echo", "Echo", "ECHO"];
-                let reply_Text = [];
+                
                 if( lower_receive_Text.includes('echo')) {
                     reply_Text = [{
                         type: 'text',
@@ -90,13 +93,20 @@ module.exports = ({ router }) => {
                 
                 }
 
+                
+
             } else {
 
-                let rp_body = {
-                    replyToken: reply_Token,
-                    messages: reply_Text
-                }
+                reply_Text = [{
+                    type: 'text',
+                    text: 'Sorry, I can understand only text for now'
+                }]
 
+            }
+
+            let rp_body = {
+                replyToken: reply_Token,
+                messages: reply_Text
             }
 
             let options = {
