@@ -2,6 +2,8 @@ module.exports = ({ router }) => {
         
     var usd_rates = 0.0;
     var thb_rates = 0.0;
+    var jpy_rates = 0.0;
+
     var usb_to_thb = 0.0;
 
     router.post('/webhook', async (ctx, next) => {
@@ -14,11 +16,13 @@ module.exports = ({ router }) => {
         fx_rp(fx_option)
             .then(function (parsedBody){
                 console.log('fx rq success');
-                // console.log('parsed = ' , parsedBody);
-                console.log('USD = ' , parsedBody.rates.USD);
+                console.log('parsed = ' , parsedBody);
+                //console.log('USD = ' , parsedBody.rates.USD);
                 usd_rates = parsedBody.rates.USD;
-                console.log('THB = ' , parsedBody.rates.THB);
+                //console.log('THB = ' , parsedBody.rates.THB);
                 thb_rates = parsedBody.rates.THB;
+
+                jpy_rates = parsedBody.rates.JPY;
                 usb_to_thb = (1 / usd_rates) * thb_rates;
             })
             .catch(function (err) {
