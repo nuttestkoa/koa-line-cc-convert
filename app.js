@@ -20,34 +20,12 @@ app.on('error', (err, ctx) => {
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-
 router
     .get('/', (ctx, next) => {
         console.log('Test FIXER API');
         ctx.body = ctx;
-        // var fx_option = {
-        //     method: 'GET',
-        //     url: 'http://data.fixer.io/api/latest?access_key=6646d19dc18a481c1fc14f93094a3197',
-        //     json: true
-        // }
-        // var fx_rp = require('request-promise');
-        // fx_rp(fx_option)
-        //     .then(function (parsedBody){
-        //         console.log('fx rq success');
-        //         console.log(ctx);
-        //     })
-        //     .catch(function (err) {
-        //         console.log('server error', err, ctx);
-        //     });
+        
     })
-    // .get('/fixer', async (ctx, next) => {
-    //     console.log('FIXER API START');
-    //     ctx.body = ctx;
-    //     // console.log(ctx.request.body);
-    //     // http://data.fixer.io/api/latest?access_key=6646d19dc18a481c1fc14f93094a3197
-        
-        
-    // })
     .post('/webhook', async (ctx, next) => {
         var fx_option = {
             method: 'GET',
