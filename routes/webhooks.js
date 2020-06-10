@@ -46,16 +46,14 @@ module.exports = ({ router }) => {
                 let echo_Text = ["echo", "Echo", "ECHO"];
                 let reply_Text = [];
                 if( lower_receive_Text.includes('echo')) {
-                    let rp_body = {
-                        reply_Text = [{
-                                type: 'text',
-                                text: 'Hello, I will echo your text :'
-                            },
-                            {
-                                type: 'text',
-                                text: receive_Text
-                            }]
-                        }
+                    reply_Text = [{
+                        type: 'text',
+                        text: 'Hello, I will echo your text :'
+                    },
+                    {
+                        type: 'text',
+                        text: receive_Text
+                    }]
                 } else if(
                     hasNumbers(receive_Text) &&
                     lower_receive_Text.includes('usd') ||
