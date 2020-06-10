@@ -17,25 +17,24 @@ app.use(async (ctx, next) => {
     try {
       await next();
     } catch (err) {
-      ctx.status = err.status || 500;
-      ctx.body = err.message;
-      ctx.app.emit('error', err, ctx);
+        ctx.body = err.message;
+        ctx.status = err.status || 500;
+        ctx.app.emit('error', err, ctx);
     }
-  });
+});
 
 const router = new Router();
 const port = process.env.PORT || 4000;
 
+require('./routes/basic')({ router });
+require('./routes/webhooks')({ router });
+
 app.use(router.routes());
 app.use(router.allowedMethods());
-
-require('./routes/basic')({ router });
 
 app.on('error', (err, ctx) => {
     console.log('server error', err, ctx)
 });
-
-require('./routes/webhooks')({ router });
 
 const server = app.listen(port);
 module.exports = server;
