@@ -57,43 +57,28 @@ module.exports = ({ router }) => {
                         type: 'text',
                         text: receive_Text
                     }]
-                } else if(
-                    hasNumbers(receive_Text) &&
-                    lower_receive_Text.includes('usd') ||
-                    lower_receive_Text.includes('jpy') 
-                    ) {
-                        convert_number = receive_Text.match(/\d+/)[0];
-                        switch (lower_receive_Text) {
-                            case 'usd':
-                                let converted_usd = convert_number*usd_to_thb
-                                reply_Text = [{
-                                    type: 'text',
-                                    text: convert_number + ' USD is ' + converted_usd + ' THB'
-                                }]
-                                break;
-                            case 'jpy':
-                                let converted_jpy = convert_number*jpy_to_thb
-                                reply_Text = [{
-                                    type: 'text',
-                                    text: convert_number + ' JPY is ' + converted_jpy + ' THB'
-                                }]
-                                break;
-                            default:
-                                reply_Text = [{
-                                    type: 'text',
-                                    text: 'Default THB'
-                                }]
-                                break;
-                        }
-                } else {
-                    reply_Text = [{
-                        type: 'text',
-                        text: 'Welcome to currency converter by Nut'
-                    }]
-                
+                } else if ( hasNumbers(receive_Text)  ) {
+                    convert_number = receive_Text.match(/\d+/)[0];
+                    if (lower_receive_Text.includes('usd')) {
+                        let converted_usd = convert_number*usd_to_thb
+                        reply_Text = [{
+                            type: 'text',
+                            text: convert_number + ' USD is ' + converted_usd + ' THB'
+                        }]
+                    }
+                    if (lower_receive_Text.includes('jpy')) {
+                        let converted_jpy = convert_number*jpy_to_thb
+                        reply_Text = [{
+                            type: 'text',
+                            text: convert_number + ' JPY is ' + converted_jpy + ' THB'
+                        }]
+                    } else {
+                        reply_Text = [{
+                            type: 'text',
+                            text: 'Welcome to currency converter by Nut'
+                        }]
+                    }
                 }
-
-                
 
             } else {
 
