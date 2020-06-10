@@ -42,7 +42,7 @@ module.exports = ({ router }) => {
 
             let reply_Text = [];
 
-            if( reply_Type === 'text') {
+            if( reply_Type === 'message') {
                 
                 let receive_Text = ctx.request.body.events[0].message.text;
                 let lower_receive_Text = receive_Text.toLowerCase();
